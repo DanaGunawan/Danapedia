@@ -26,7 +26,7 @@
 
 
       @include('admin/layouts/_message')
-      <form action="{{url('admin')}}" method="post">
+      <form action="{{url('/admin')}}" method="post">
         @csrf
         <div class="input-group mb-3">
           <input type="email" class="form-control" name="email" placeholder="Email">

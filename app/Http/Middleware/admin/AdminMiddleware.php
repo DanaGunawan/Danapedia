@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\admin;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -9,7 +9,11 @@ use Auth;
 
 class AdminMiddleware
 {
-    
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
     public function handle(Request $request, Closure $next): Response
     {
         if(!empty(Auth::check())){
@@ -25,8 +29,7 @@ class AdminMiddleware
         else{
             Auth::logout();
             return redirect('admin');
-        }
-
-     }
+        }  
     
+    }
 }

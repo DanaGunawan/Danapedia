@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
     ];
 
     /**
@@ -43,5 +44,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public static function getAdmin(){
+        return user::select('users.*')->where('is_admin','=',1)->orderBy('id','asc')->get();
+    }
+    public static function singleAdmin($id){
+        return user::find($id);
     }
 }
