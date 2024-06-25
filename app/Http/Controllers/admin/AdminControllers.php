@@ -15,6 +15,16 @@ class AdminControllers extends Controller
     public function add(){return view('admin/admin/add',['header_title' => 'Add New Admin']);}
 
     public function insert(Request $request){
+
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'name' => 'required',
+            'phone' => 'required',
+            
+        ]);
+
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -33,6 +43,15 @@ class AdminControllers extends Controller
 
     }
     public function update($id,Request $request){
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:8',
+            'name' => 'required',
+            'phone' => 'required',
+            
+        ]);
+
         $user = User::SingleAdmin($id);
         $user->name = $request->name;
         $user->email = $request->email;

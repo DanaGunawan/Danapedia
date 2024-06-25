@@ -62,7 +62,7 @@
           </span>
           </td>
           <td>        <a href="/admin/admin/edit/{{$value["id"]}}" class="btn btn-primary" style="align"> Edit </a>
-                      <a href="/admin/admin/delete/{{$value["id"]}}" class="btn btn-danger" style="align"> Delete</a>
+          <a href="/admin/admin/delete/{{$value["id"]}}" class="btn btn-danger" id="delete" onclick="return confirmDelete()">Delete</a>
 
           </td>
         </tr>
@@ -77,7 +77,10 @@
 
 </section>
 
-
-
+<script>
+function confirmDelete() {
+    return confirm('Apakah anda yakin ingin menghapus?');
+}
+</script>
 
 @endsection

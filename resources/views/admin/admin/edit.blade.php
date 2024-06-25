@@ -20,11 +20,17 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" value="{{$singleAdmin['name']}}" id="name" name="name" placeholder="Enter Name" required>
+                    @if($errors->has('name'))
+                      <div class="alert alert-danger"> {{ $errors->first('name')}}</div>
+                    @endif
+                    <input type="text" class="form-control" value="{{ old('name' ,$singleAdmin['name']) }}" id="name" name="name" placeholder="Enter Name" >
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" value="{{$singleAdmin['email']}}" name="email" placeholder="Enter Email" required>
+                    @if($errors->has('email'))
+                      <div class="alert alert-danger"> {{ $errors->first('email')}}</div>
+                    @endif
+                    <input type="email" class="form-control" id="email" value="{{ old('email' ,$singleAdmin['email']) }}" name="email" placeholder="Enter Email" >
                   </div> 
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -34,7 +40,10 @@
 
                   <div class="form-group">
                     <label for="phone">phone</label>
-                    <input type="number" class="form-control" id="phone" value="{{$singleAdmin['phone']}}" name="phone" placeholder="Enter phone number" required>
+                    @if($errors->has('phone'))
+                      <div class="alert alert-danger"> {{ $errors->first('phone')}}</div>
+                    @endif
+                    <input type="number" class="form-control" id="phone" value="{{old('phone' ,$singleAdmin['phone']) }}" name="phone" placeholder="Enter phone number" >
                   </div>
 
                   <div class="form-group">
