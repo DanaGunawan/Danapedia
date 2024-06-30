@@ -1,0 +1,98 @@
+@extends('admin/layouts/app')
+<!-- Content Wrapper. Contains page content -->
+
+@section('content')
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>{{ $header_title }}</h1>
+      </div>
+      <div class="col-sm-6" style="text-align: right;">
+        <a href="/admin/subCategory/add" class="btn btn-primary" style="align"> Add New Sub Category </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+@include('admin/layouts/_message')
+<!-- Main content -->
+
+<section class="content">
+  <div class="container-fluid">
+    <!-- /.card -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Category List</h3>
+      </div>
+      
+      <!-- /.card-header -->
+      <div class="card-body p-0">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>category</th>
+              <th>sub_category</th>
+              <th>meta_title</th>
+              <th>Slug</th>     
+              <th>Created By</th>  
+              <th>Created At</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            @foreach ($sub_category as $value)
+
+        <tr>
+          <td>{{$value['id']}}</td>
+          <td>{{$value['category_name']}}</td>
+          <td>{{$value['name']}}</td>
+          <td>{{$value['meta_title']}}</td>
+          <td>{{$value['slug']}}</td>
+          <td>{{$value['created_by']}}</td>
+          <td>{{date('d-m-Y',strtotime($value['created_at']))}}</td>
+
+
+          <td>
+          <span
+            class="{{ $value['status'] == 'Active' ? 'bg-success' : 'bg-danger' }} text-white rounded-pill p-1 text-center"
+            style="display: inline-block; min-width: 80px;">
+            {{ $value['status'] }}
+          </span>
+          </td>
+          <td> 
+          <a href="/admin/subCategory/edit/{{$value["id"]}}" class="btn btn-primary" style="align"> Edit </a>
+          <a href="/admin/subCategory/delete/{{$value["id"]}}" class="btn btn-danger" id="delete" onclick="return confirmDelete()">Delete</a>
+
+          </td>
+        </tr>
+      @endforeach
+
+          </tbody>
+        </table>
+
+        <div style="padding:10px; float:right;">
+          {!! $sub_category->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!} 
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<script>
+function confirmDelete() {
+    return confirm('Apakah anda yakin ingin menghapus?');
+}
+</script>
+
+@endsection
