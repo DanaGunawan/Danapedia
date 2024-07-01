@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthControllers;
+use App\Http\Controllers\admin\AdminControllers;
+use App\Http\Controllers\admin\productControllers;
 use App\Http\Controllers\admin\CategoryControllers;
 use App\Http\Controllers\admin\DashboardControllers;
-use App\Http\Controllers\AuthControllers;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\AdminControllers;
 use App\Http\Controllers\admin\subCategoryControllers;
 
 Route::get('/', function () {
@@ -41,11 +42,18 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     Route::post('admin/category/edit/{id}',[CategoryControllers::class,'update']);
     Route::get('admin/category/delete/{id}',[CategoryControllers::class,'delete']);
 
-
+    //sub category
     Route::get('admin/subCategory/list',[subCategoryControllers::class,'list']);
     Route::get('admin/subCategory/add',[subCategoryControllers::class,'add']);
     Route::post('admin/subCategory/add',[subCategoryControllers::class,'insert']);
     Route::get('admin/subCategory/edit/{id}',[subCategoryControllers::class,'edit']);
     Route::post('admin/subCategory/edit/{id}',[subCategoryControllers::class,'update']);
     Route::get('admin/subCategory/delete/{id}',[subCategoryControllers::class,'delete']);
+
+    //products
+    Route::get('admin/products/list'  , [productControllers::class,'list']);
+    Route::get('admin/products/add'   , [productControllers::class,'add']);
+    Route::post('admin/products/add'  , [productControllers::class,'insert']);
+    Route::get('admin/products/edit/{id}'  , [productControllers::class,'edit']);
+    Route::post('admin/products/edit/{id}'  , [productControllers::class,'update']);
 });

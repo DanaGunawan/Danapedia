@@ -180,7 +180,7 @@
 
 
           <li class="nav-item">
-            <a href="{{url('/admin/products')}}" class="nav-link  @if(Request::segment(2) == 'products') : active ? '' @endif ">
+            <a href="{{url('/admin/products/list')}}" class="nav-link  @if(Request::segment(2) == 'products') : active ? '' @endif ">
               <i class="nav-icon fas fa-box"></i>
               <p>
                 Products
