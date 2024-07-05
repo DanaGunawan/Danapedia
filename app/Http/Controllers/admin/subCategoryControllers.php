@@ -25,8 +25,8 @@ class subCategoryControllers extends Controller
     public function insert(Request $request){
         
         $request->validate([
-            'name' => 'required | unique',
-            'slug' => 'required',
+            'name' => 'required | unique:sub_category,name',
+            'slug' => 'required | unique:sub_category,slug',
             'meta_title' => 'required',
             'meta_description' => 'required',
             'meta_keywords' => 'required',

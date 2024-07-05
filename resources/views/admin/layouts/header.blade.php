@@ -144,7 +144,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{url('/dashboard')}}" class="nav-link nav-link  @if(Request::segment(2) == 'dashboard') : active ? '' @endif">
+            <a href="{{url('/admin/dashboard')}}" class="nav-link nav-link  @if(Request::segment(2) == 'dashboard') : active ? '' @endif">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard

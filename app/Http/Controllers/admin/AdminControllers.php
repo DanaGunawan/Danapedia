@@ -17,7 +17,7 @@ class AdminControllers extends Controller
     public function insert(Request $request){
 
         $request->validate([
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'name' => 'required',
             'phone' => 'required',

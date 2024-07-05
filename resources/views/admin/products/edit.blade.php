@@ -23,7 +23,25 @@
         @if($errors->has('name'))
       <div class="alert alert-danger"> {{ $errors->first('name') }}</div>
     @endif
-        <input type="text" class="form-control" id="name" name="name" value="{{ old('name')}}"
+        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $getSingleProduct)}}"
+          placeholder="Enter name">
+      </div>
+
+      <div class="form-group">
+        <label for="price">price <span style="color:red;">*</span></label>
+        @if($errors->has('price'))
+      <div class="alert alert-danger"> {{ $errors->first('price') }}</div>
+    @endif
+        <input type="number" class="form-control" id="price" name="price" value="{{ old('price' ,$getSingleProduct['price'])}}"
+          placeholder="Enter name">
+      </div>
+
+      <div class="form-group">
+        <label for="image">image <span style="color:red;">*</span></label>
+        @if($errors->has('image'))
+      <div class="alert alert-danger"> {{ $errors->first('image') }}</div>
+    @endif
+        <input type="number" class="form-control" id="image" name="image" value="{{ old('image' ,$getSingleProduct)}}"
           placeholder="Enter name">
       </div>
      

@@ -39,25 +39,47 @@
             <tr>
               <th>id</th>
               <th>title</th>
-              <th>category</th>
-              <th>sub category</th>  
-              <th>size </th>   
-              <th>color</th>
-              <th>brand </th>  
               <th>price</th>
-              <th>Shipping&returns</th>
               <th>Image</th>
+              <th>Created By</th>
               <th>Created At</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
+            @foreach ( $products as $product)
+            <tr>
+              <td>{{ $product->id }}</td>
+              <td>{{ $product->title }}</td>
+              <td>{{ $product->price }}</td>
+              <td><img src="{{ asset('storage/'.$product->image) }}" width="100px
+              "></td>
+              <td>{{ $product->created_by }}</td>
+              <td>{{ $product->created_at }}</td>
+              <td>
+          <span
+            class="{{ $product['status'] == 'Active' ? 'bg-success' : 'bg-danger' }} text-white rounded-pill p-1 text-center"
+            style="display: inline-block; min-width: 80px;">
+            {{ $product['status'] }}
+          </span>
+          </td>
+          <td> 
+          <a href="/admin/products/edit/{{$product["id"]}}" class="btn btn-primary" style="align"> Edit </a>
+          <a href="/admin/products/delete/{{$product["id"]}}" class="btn btn-danger" id="delete" onclick="return confirmDelete()">Delete</a>
+
+          </td>
+            </tr>
+
+            
+            @endforeach
 
           
 
           </tbody>
         </table>
+
+        
       </div>
     </div>
   </div>

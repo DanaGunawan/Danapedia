@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\products;
-use App\Models\User;
+use App\Models\user;
 use App\Models\subCategory;
 use App\Models\category;
 use Illuminate\Http\Request;
@@ -16,11 +16,13 @@ use Auth;
 class productControllers extends Controller
 {
     public function list(){
-        return view('admin/products/list' , ['header_title' => 'Products List']);
+        $products = products::getProducts();
+        return view('admin/products/list' , ['header_title' => 'Products List', 'products' => $products]);
     }
 
     public function add(){
-        return view('admin/products/add', ['header_title' => 'Add New Products']);
+        $CategoryList = Category::getCategory();  
+        return view('admin/products/add', ['header_title' => 'Add New Products', 'categoryList' => $CategoryList]);
     }
 
     public function insert(Request $request){
@@ -29,7 +31,7 @@ class productControllers extends Controller
         $products = new products;
         $products->title = $title;
         $slug = Str::slug($title,'-');
-        $created_by = Auth::User()->id;
+        $products->created_by = Auth::user()->id;
         $products->save();
 
         $checkslug = products::slugCount($slug);
@@ -44,13 +46,18 @@ class productControllers extends Controller
             $products->save();
         }
 
-        return redirect('admin/products/edit/' . $products->id);
-
-    }
-    public function edit(){
-        return view('admin/products/edit' , ['header_title' => 'Edit Products']);
+        return redirect('admin/products/list')->with('success' , 'product baru sukses di buat');
     }
 
+    public function edit($id){
+        $getSingleProduct = products::getSingleProduct($id);
+        return view('admin/products/edit' , ['header_title' => 'Edit Products', 'getSingleProduct' => $getSingleProduct]);
+    }
+
+
+    public function update($id, Request $request){
+
+    }
 }
 
 
