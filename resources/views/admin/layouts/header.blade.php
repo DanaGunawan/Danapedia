@@ -178,6 +178,24 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{url('/admin/brands/list')}}" class="nav-link  @if(Request::segment(2) == 'brands') : active ? '' @endif ">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                  Brands
+            </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{url('/admin/colors/list')}}" class="nav-link  @if(Request::segment(2) == 'colors') : active ? '' @endif ">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                  Colors
+            </p>
+            </a>
+          </li>
+
 
           <li class="nav-item">
             <a href="{{url('/admin/products/list')}}" class="nav-link  @if(Request::segment(2) == 'products') : active ? '' @endif ">
