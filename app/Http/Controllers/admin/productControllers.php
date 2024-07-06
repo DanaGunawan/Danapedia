@@ -6,6 +6,7 @@ use App\Models\products;
 use App\Models\user;
 use App\Models\subCategory;
 use App\Models\category;
+use App\Models\brands;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Str;
@@ -21,8 +22,10 @@ class productControllers extends Controller
     }
 
     public function add(){
-        $CategoryList = Category::getCategory();  
-        return view('admin/products/add', ['header_title' => 'Add New Products', 'categoryList' => $CategoryList]);
+        $CategoryList = Category::getCategoryActive();  
+        $brands = brands::getBrandsActive();
+
+        return view('admin/products/add', ['header_title' => 'Add New Products', 'categoryList' => $CategoryList, 'brandList' => $brands]);
     }
 
     public function insert(Request $request){
@@ -58,6 +61,7 @@ class productControllers extends Controller
     public function update($id, Request $request){
 
     }
+    
 }
 
 

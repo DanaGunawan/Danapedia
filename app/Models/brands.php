@@ -18,6 +18,12 @@ class brands extends Model
         where('brands.is_deleted','=' , 0)->
         orderBy('id','desc')->paginate(15)->withQueryString();
     }
+    public static function getBrandsActive(){
+        return self::select('brands.*')->
+        where('brands.is_deleted','=' , 0)->
+        where('brands.status','=' , 'Active')->
+        orderBy('id','desc')->get();
+    }
 
     public static function getSingleBrands($id){
         return self::select('brands.*', 'users.name as created_by')

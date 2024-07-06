@@ -68,8 +68,9 @@ class brandControllers extends Controller
         $brands->save();
 
         return redirect('/admin/brands/list')->with('success' , 'Brand baru sukses di Delete');
-
     }
+
+    
 }
 
 

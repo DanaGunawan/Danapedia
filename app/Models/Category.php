@@ -20,6 +20,13 @@ class Category extends Model
         orderBy('id','desc')->paginate(15)->withQueryString();
     }
 
+
+    public static function getCategoryActive(){
+        return self::select('category.*')->
+        where('category.is_deleted','=' , 0)->
+        where('category.status' ,'=' , 'Active')->
+        orderBy('id','desc')->paginate(15)->withQueryString();
+    }
     public static function getSingleCategory($id){
         return self::select('category.*', 'users.name as created_by')
             ->join('users', 'users.id', '=', 'category.created_by')

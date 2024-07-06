@@ -93,4 +93,24 @@ class subCategoryControllers extends Controller
 
         return redirect('admin/subCategory/list')->with('success', 'Sub Category berhasil di hapus');
     }
+
+    public function getSubCategory(Request $request)
+    {
+        $categoryId = $request->id;
+    
+        // Fetch subcategories based on the category ID
+        $subCategories = SubCategory::where('category_id', $categoryId)->get();
+    
+        // Generate the options for the subcategory dropdown
+        $options = '<option value="">-- Select Sub Category --</option>';
+        foreach ($subCategories as $subCategory) {
+            $options .= '<option value="' . $subCategory->id . '">' . $subCategory->name . '</option>';
+        }
+    
+        // Return the options as a JSON response
+        return response()->json(['options' => $options]);
+    }
+    
+
+
 }

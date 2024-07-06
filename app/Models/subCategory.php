@@ -10,6 +10,7 @@ class subCategory extends Model
     use HasFactory;
 
     protected $table = 'sub_category';
+    
     static public function getSubCategory(){
         return self::select('sub_category.*', 'users.name as created_by', 'category.name as category_name')
             ->join('category', 'category.id', '=', 'sub_category.category_id')
@@ -23,5 +24,15 @@ class subCategory extends Model
         return subCategory::find($id);
     }
     
+
+    static public function getSubCategoryconnect($id)
+    {
+        return self::select('sub_category.*')
+            ->where('sub_category.is_deleted', '=' ,0)
+            ->where('sub_category.status', '=' ,'Active')
+            ->where('sub_category.category_id', '=' , $id)
+            ->orderBy('sub_category.id', 'desc')
+            ->get();
+    }
     
 }

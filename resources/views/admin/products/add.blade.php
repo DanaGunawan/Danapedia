@@ -46,15 +46,9 @@
 
         <div class="col-md-6">
           <div class="form-group">
-            <label for="subCategory_id">Sub Category Name <span style="color:red;">*</span></label>
-            @if($errors->has('subCategory_id'))
-              <div class="alert alert-danger">{{ $errors->first('subCategory_id') }}</div>
-            @endif
+            <label for="#">Sub Category Name <span style="color:red;">*</span></label>
             <select name="subCategory_id" class="form-control" id="subCategory_id">
-              <option value="">--Select Sub Category--</option>
-              @foreach ($categoryList as $list)
-                <option value="{{ $list->id }}">{{ $list->name }}</option>
-              @endforeach
+              <option value="">-- Select Sub Category --</option>
             </select>
           </div>
         </div>
@@ -67,7 +61,7 @@
             @endif
             <select name="brand_id" class="form-control" id="brand_id">
               <option value="">--Select Brand--</option>
-              @foreach ($categoryList as $list)
+              @foreach ($brandList as $list)
                 <option value="{{ $list->id }}">{{ $list->name }}</option>
               @endforeach
             </select>
@@ -104,7 +98,6 @@
           </div>
         </div>
 
-
         <div class="col-md-12">
           <hr>
           <div class="form-group">
@@ -130,9 +123,10 @@
           </div>
         </div>
 
-<div class="col-md-12">
-  <hr>
-</div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+
         <div class="col-md-6">
           <div class="form-group">
             <label for="price">Price <span style="color:red;">*</span></label>
@@ -195,12 +189,37 @@
       </div>
     </div>
 
-
-
     <div class="card-footer">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </form>
 </div>
+
+@section('script')
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#category_id').change(function(e) {
+      var id = $(this).val();
+      $.ajax({
+        type: "GET",
+        url: "{{ url('admin/products/add') }}",
+        data: {
+          id: id,
+          _token: '{{ csrf_token() }}'
+        },
+        dataType: "json",
+        success: function(data) {
+          $('#subCategory_id').html(data.options);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error:', xhr.responseText);
+        }
+      });
+    });
+  });
+</script>
+
+@endsection
 
 @endsection
