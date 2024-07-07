@@ -13,39 +13,35 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url('assets/dist/css/adminlte.min.css')}}">
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Additional styles section -->
+  @yield('styles')
+</head>
+<body>
 @include('admin/layouts/header')
 
 <div class="content-wrapper">
-@yield('content')
-
+  @yield('content')
 </div>
+
 @include('admin/layouts/footer')
 
-
-
-
-
-
-
-
-
 <!-- jQuery -->
-<script src="{{url('assets/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{ url('assets/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap -->
-<script src="{{url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE -->
-<script src="{{url('assets/dist/js/adminlte.js')}}"></script>
-
-
+<script src="{{ url('assets/dist/js/adminlte.js') }}"></script>
 <!-- OPTIONAL SCRIPTS -->
-<script src="{{url('assets/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{ url('assets/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{url('assets/dist/js/demo.js')}}"></script>
+<script src="{{ url('assets/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{url('assets/dist/js/pages/dashboard3.js')}}"></script>
+<script src="{{ url('assets/dist/js/pages/dashboard3.js') }}"></script>
+<!-- Summernote -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
-
-
+@yield('scripts')
 
 </body>
 </html>

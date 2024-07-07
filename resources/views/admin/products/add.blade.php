@@ -1,19 +1,11 @@
-@extends('admin.layouts.app')
+@extends('admin/layouts/app')
+<!-- Content Wrapper. Contains page content -->
 
 @section('content')
 
-<section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>{{ $header_title }}</h1>
-      </div>
-      <div class="col-sm-6" style="text-align: right;">
-      </div>
-    </div>
-  </div>
-</section>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
+ 
 <div class="card">
   <form action="" method="post">
     @csrf
@@ -82,18 +74,13 @@
           <div class="form-group">
             <label for="color">Color List Product <span style="color:red;">*</span></label>
             <div class="row">
+
+            @foreach($colorList as $color)
               <div class="col-md-3">
-                <label><input type="checkbox" name="color_id[]" value="Red"> Red</label>
+                <label><input type="checkbox" name="color_id[]" value="{{ $color->id }}"> {{  $color->name}} </label>
               </div>
-              <div class="col-md-3">
-                <label><input type="checkbox" name="color_id[]" value="Green"> Green</label>
-              </div>
-              <div class="col-md-3">
-                <label><input type="checkbox" name="color_id[]" value="Blue"> Blue</label>
-              </div>
-              <div class="col-md-3">
-                <label><input type="checkbox" name="color_id[]" value="Yellow"> Yellow</label>
-              </div>
+            @endforeach
+           
             </div>
           </div>
         </div>
@@ -110,12 +97,12 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="appendSize">
                 <tr>
                   <td><input class="form-control" type="text" name="size[]" id="size" placeholder="size"></td>
                   <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>
-                  <td> 
-                    <a href="javascript:void(0);" class="btn btn-primary" id="add"> Add </a>
+                  <td style="width:100px;"> 
+                    <a class="btn btn-primary" id="sizeAdd"  > Add </aclass>
                   </td>
                 </tr>
               </tbody>
@@ -153,7 +140,7 @@
             @if($errors->has('short_description'))
               <div class="alert alert-danger">{{ $errors->first('short_description') }}</div>
             @endif
-            <textarea class="form-control" name="short_description" id="short_description" placeholder="Short description">{{ old('short_description') }}</textarea>
+            <textarea class="form-control " name="short_description" id="short_description" placeholder="Short description">{{ old('short_description') }}</textarea>
           </div>
         </div>
 
@@ -163,7 +150,7 @@
             @if($errors->has('Description'))
               <div class="alert alert-danger">{{ $errors->first('Description') }}</div>
             @endif
-            <textarea class="form-control" name="Description" id="Description" placeholder="Description">{{ old('Description') }}</textarea>
+            <textarea class="form-control editor" name="Description" id="Description" placeholder="Description">{{ old('Description') }}</textarea>
           </div>
         </div>
 
@@ -173,7 +160,7 @@
             @if($errors->has('additional_information'))
               <div class="alert alert-danger">{{ $errors->first('additional_information') }}</div>
             @endif
-            <textarea class="form-control" name="additional_information" id="additional_information" placeholder="Additional information">{{ old('additional_information') }}</textarea>
+            <textarea class="form-control editor" name="additional_information" id="additional_information" placeholder="Additional information">{{ old('additional_information') }}</textarea>
           </div>
         </div>
 
@@ -183,7 +170,7 @@
             @if($errors->has('shipping_return'))
               <div class="alert alert-danger">{{ $errors->first('shipping_return') }}</div>
             @endif
-            <textarea class="form-control" name="shipping_return" id="shipping_return" placeholder="Shipping & Return">{{ old('shipping_return') }}</textarea>
+            <textarea class="form-control editor" name="shipping_return" id="shipping_return" placeholder="Shipping & Return">{{ old('shipping_return') }}</textarea>
           </div>
         </div>
       </div>
@@ -195,15 +182,61 @@
   </form>
 </div>
 
-@section('script')
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $('.editor').summernote({
+      height: 200, // Set the height of the editor
+      placeholder: 'Enter your content here...',
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+        ['fontname', ['fontname']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ],
+      callbacks: {
+        onInit: function() {
+          console.log('Summernote is initialized!');
+        }
+      }
+    });
+  });
+
+  var i = 10;
+  $(document).ready(function() {
+
+  
+    //--//
+    $('body').on('click', '#sizeAdd', function(e){
+      e.preventDefault();
+      let html = '<tr id="DeleteSize'+i+'">\n\
+                    <td><input class="form-control" type="text" name="size[]" value='+i+' id="size" placeholder="size"></td>\n\
+                    <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>\n\
+                    <td>\n\
+                      <a href="javascript:void(0);" id="'+i+'" class="btn btn-danger deleteSize"> Delete </a>\n\
+                    </td>\n\
+                  </tr>';
+                  i++;
+      $('.appendSize').append(html);
+    });
+
+    $('body').on('click','.deleteSize', function(e){
+      var id = $(this).attr('id');
+      $('#DeleteSize'+id).remove();
+    });
+    
     $('#category_id').change(function(e) {
       var id = $(this).val();
       $.ajax({
-        type: "GET",
-        url: "{{ url('admin/products/add') }}",
+        type: "post",
+        url: "{{ url('admin/getSubCategory') }}",
         data: {
           id: id,
           _token: '{{ csrf_token() }}'
@@ -219,7 +252,5 @@
     });
   });
 </script>
-
-@endsection
 
 @endsection

@@ -44,7 +44,6 @@ class subCategoryControllers extends Controller
         $category->save();
 
         return redirect('/admin/subCategory/list')->with('success' , 'sub Category baru sukses dibuat');
-        // dd($request->all());
 
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\products;
 use App\Models\user;
 use App\Models\subCategory;
+use App\Models\color;
 use App\Models\category;
 use App\Models\brands;
 use Illuminate\Http\Request;
@@ -24,8 +25,9 @@ class productControllers extends Controller
     public function add(){
         $CategoryList = Category::getCategoryActive();  
         $brands = brands::getBrandsActive();
+        $colors = color::getColorActive();
 
-        return view('admin/products/add', ['header_title' => 'Add New Products', 'categoryList' => $CategoryList, 'brandList' => $brands]);
+        return view('admin/products/add', ['header_title' => 'Add New Products', 'categoryList' => $CategoryList, 'brandList' => $brands, 'colorList' => $colors]);
     }
 
     public function insert(Request $request){

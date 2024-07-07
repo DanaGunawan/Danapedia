@@ -53,7 +53,7 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     Route::post('admin/subCategory/edit/{id}',[subCategoryControllers::class,'update']);
     Route::get('admin/subCategory/delete/{id}',[subCategoryControllers::class,'delete']);
 
-    Route::get('admin/getSubCategory', [subCategoryControllers::class, 'getSubCategory']);
+    Route::POST('admin/getSubCategory', [subCategoryControllers::class, 'getSubCategory']);
 
 
       //sub Brands
