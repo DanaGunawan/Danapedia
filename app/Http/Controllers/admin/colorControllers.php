@@ -56,7 +56,13 @@ class colorControllers extends Controller
         $brands->save();
 
         return redirect('admin/colors/list')->with('success' , 'color baru sukses di Edit');
+       }
 
+       public function delete($id){
 
+        $brands = color::find($id);
+        $brands->destroy($id);
+        $brands->save();
+        return redirect('admin/colors/list')->with('success' , 'color berhasil di hapus');
        }
 }

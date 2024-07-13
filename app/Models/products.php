@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\product_color;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,9 +24,13 @@ class products extends Model
         where('products.is_deleted','=' , 0)->
         orderBy('id','desc')->paginate(15)->withQueryString();    }
 
-
         static public function getSingleProduct($id){
             return self::find($id);
         }
+
+        public function getColor(){
+            return $this->hasMany(product_color::class,'product_id');
+        }
+
 }
 

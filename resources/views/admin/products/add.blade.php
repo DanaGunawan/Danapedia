@@ -23,6 +23,16 @@
 
         <div class="col-md-6">
           <div class="form-group">
+            <label for="sku">SKU <span style="color:red;">*</span></label>
+            @if($errors->has('sku'))
+              <div class="alert alert-danger">{{ $errors->first('sku') }}</div>
+            @endif
+            <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Enter sku">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
             <label for="category_id">Category Name <span style="color:red;">*</span></label>
             @if($errors->has('category_id'))
               <div class="alert alert-danger">{{ $errors->first('category_id') }}</div>
@@ -30,7 +40,7 @@
             <select name="category_id" class="form-control" id="category_id">
               <option value="">--Select Category--</option>
               @foreach ($categoryList as $list)
-                <option value="{{ $list->id }}">{{ $list->name }}</option>
+                <option  value="{{ $list->id }}">{{ $list->name }}</option>
               @endforeach
             </select>
           </div>
@@ -189,7 +199,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.editor').summernote({
-      height: 200, // Set the height of the editor
+      height: 200,
       placeholder: 'Enter your content here...',
       toolbar: [
         ['style', ['style']],

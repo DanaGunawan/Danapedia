@@ -142,6 +142,11 @@ function confirmDelete() {
 
           </tbody>
         </table>
+
+        <div style="padding:10px; float:right;">
+          {!! $colors->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!} 
+        </div>
+
       </div>
     </div>
   </div>

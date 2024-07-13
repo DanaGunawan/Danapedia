@@ -73,11 +73,12 @@
 
             
             @endforeach
-
-          
-
           </tbody>
         </table>
+
+        <div style="padding:10px; float:right;">
+          {!! $products->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!} 
+        </div>
 
         
       </div>
