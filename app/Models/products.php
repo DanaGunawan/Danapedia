@@ -32,5 +32,9 @@ class products extends Model
             return $this->hasMany(product_color::class,'product_id');
         }
 
+        public function getSize(){
+            return $this->hasMany(product_size::class,'product_id');
+        }
+
 }
 

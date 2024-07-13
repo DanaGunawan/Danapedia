@@ -125,13 +125,28 @@
                   <th>Action</th>
                 </tr>
               </thead>
+
+              @php
+              $i_s = 1;
+              @endphp
               <tbody class="appendSize">
+                @foreach ($singleProduct->getSize as $size)
+                <tr id="DeleteSize'">
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' id="size" placeholder="size"></td>
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}'  id="quantity" placeholder="quantity"></td>
+                    <td>
+                      <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger sizeRemove"> Remove </a>
+                    </td>
+                  </tr>;
+                @php
+                $i_s++;
+                @endphp
+                @endforeach
                 <tr>
                   <td><input class="form-control" type="text" name="size[]" id="size" placeholder="size"></td>
-                  <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity">
-                  </td>
-                  <td style="width:100px;">
-                    <a class="btn btn-primary" id="sizeAdd"> Add </a>
+                  <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>
+                  <td style="width:100px;"> 
+                    <a class="btn btn-primary" id="sizeAdd"  > Add </aclass>
                   </td>
                 </tr>
               </tbody>
@@ -251,10 +266,17 @@
 </script>
 
 <script>
+  let i = 1;
   $(document).ready(function () {
     $('#sizeAdd').click(function () {
-      var sizeRow = '<tr><td><input class="form-control" type="text" name="size[]" placeholder="size"></td><td><input class="form-control" type="text" name="quantity[]" placeholder="quantity"></td><td><a class="btn btn-danger sizeRemove"> Remove </a></td></tr>';
+      var sizeRow =   
+      '<tr id="sizeRemove'+i+'">\n\
+      <td><input class="form-control" type="text" name="size['+i+'][size]" placeholder="size"></td>\n\
+      <td><input class="form-control" type="text" name="size['+i+'][quantitiy]" placeholder="quantity"></td>\n\
+      <td><a id="'+i+'" class="btn btn-danger sizeRemove"> Remove </a></td>\n\
+      </tr>';
       $('.appendSize').append(sizeRow);
+      i++;
     });
 
     $(document).on('click', '.sizeRemove', function () {
@@ -262,5 +284,6 @@
     });
   });
 </script>
+
 
 @endsection

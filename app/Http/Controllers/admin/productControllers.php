@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Models\products;
-use App\Models\user;
-use App\Models\subCategory;
-use App\Models\color;
-use App\Models\category;
-use App\Models\product_color;
-use App\Models\brands;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Str;
 use Auth;
+use App\Models\user;
+use App\Models\color;
+use App\Models\brands;
+use App\Models\category;
+use App\Models\products;
+use App\Models\subCategory;
+use Illuminate\Http\Request;
+use App\Models\product_color;
+use App\Http\Controllers\Controller;
+use App\Models\product_size;
 
 
 
@@ -100,6 +101,8 @@ class productControllers extends Controller
     
 
     public function update($id, Request $request){
+
+        // dd($request->all());
         $title = trim($request->title);
         $products = products::getSingleProduct($id);
         $products->title = $title;
@@ -124,7 +127,7 @@ class productControllers extends Controller
         // Delete existing colors for the product
         product_color::where('product_id', $id)->delete();
     
-        // Add new colors
+        
         if (!empty($request->color_id)) {
             foreach ($request->color_id as $color_id) {
                 $color = new product_color;
@@ -133,8 +136,20 @@ class productControllers extends Controller
                 $color->save();
             }
         }
-    
-        // Handle slug
+
+        product_size::deleteSize($id);
+
+        $sizes = $request->input('size', []);
+        $products->getSize()->delete();
+        foreach ($sizes as $size) {
+            if (!empty($size['size'])) {
+                $products->getSize()->create([
+                    'size' => $size['size'],
+                    'quantity' => $size['quantity'] ?? 0, // Provide default value for quantity
+                ]);
+            }
+        }
+        
         if (empty($checkslug)) {
             $products->slug = $slug;
             $products->save();
@@ -143,6 +158,8 @@ class productControllers extends Controller
             $products->slug = $slug;
             $products->save();
         }
+
+    
     
         return redirect('admin/products/list')->with('success', 'Product successfully updated');
     }

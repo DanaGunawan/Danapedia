@@ -107,7 +107,23 @@
                   <th>Action</th>
                 </tr>
               </thead>
+
+              @php
+              $i_s = 1;
+              @endphp
               <tbody class="appendSize">
+                @foreach ($product->getSize as $size)
+                <tr id="DeleteSize'">
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' id="size" placeholder="size"></td>
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}'  id="quantity" placeholder="quantity"></td>
+                    <td>
+                      <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger deleteSize"> Delete </a>
+                    </td>
+                  </tr>;
+                @php
+                $i_s++;
+                @endphp
+                @endforeach
                 <tr>
                   <td><input class="form-control" type="text" name="size[]" id="size" placeholder="size"></td>
                   <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>
