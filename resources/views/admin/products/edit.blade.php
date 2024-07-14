@@ -6,7 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 <div class="card">
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="row">
@@ -131,33 +131,43 @@
               @endphp
               <tbody class="appendSize">
                 @foreach ($singleProduct->getSize as $size)
-                <tr id="DeleteSize'">
-                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' id="size" placeholder="size"></td>
-                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}'  id="quantity" placeholder="quantity"></td>
-                    <td>
-                      <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger sizeRemove"> Remove </a>
-                    </td>
-                  </tr>;
+                <tr id="DeleteSize{{ $i_s }}">
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' placeholder="size"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}' placeholder="quantity"></td>
+                  <td>
+                    <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger sizeRemove"> Remove </a>
+                  </td>
+                </tr>
                 @php
                 $i_s++;
                 @endphp
                 @endforeach
                 <tr>
-                  <td><input class="form-control" type="text" name="size[]" id="size" placeholder="size"></td>
-                  <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" placeholder="size"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" placeholder="quantity"></td>
                   <td style="width:100px;"> 
-                    <a class="btn btn-primary" id="sizeAdd"  > Add </aclass>
+                    <a class="btn btn-primary" id="sizeAdd"> Add </a>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        
+        <div class="col-md-12">
+    <div class="form-group">
+        <label for="image">Post Image <span style="color:red;">*</span></label>
+        @if($errors->has('image'))
+            <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+        @endif
+        <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple accept="image/*">
+    </div>
+</div>
+
 
         <div class="col-md-12">
           <hr>
         </div>
-
         <div class="col-md-6">
           <div class="form-group">
             <label for="price">Price <span style="color:red;">*</span></label>
@@ -272,7 +282,7 @@
       var sizeRow =   
       '<tr id="sizeRemove'+i+'">\n\
       <td><input class="form-control" type="text" name="size['+i+'][size]" placeholder="size"></td>\n\
-      <td><input class="form-control" type="text" name="size['+i+'][quantitiy]" placeholder="quantity"></td>\n\
+      <td><input class="form-control" type="text" name="size['+i+'][quantity]" placeholder="quantity"></td>\n\
       <td><a id="'+i+'" class="btn btn-danger sizeRemove"> Remove </a></td>\n\
       </tr>';
       $('.appendSize').append(sizeRow);

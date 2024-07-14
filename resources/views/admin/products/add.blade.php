@@ -7,7 +7,7 @@
 
  
 <div class="card">
-  <form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     @csrf
     <div class="card-body">
       <div class="row">
@@ -112,29 +112,39 @@
               $i_s = 1;
               @endphp
               <tbody class="appendSize">
-                @foreach ($product->getSize as $size)
-                <tr id="DeleteSize'">
-                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' id="size" placeholder="size"></td>
-                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}'  id="quantity" placeholder="quantity"></td>
-                    <td>
-                      <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger deleteSize"> Delete </a>
-                    </td>
-                  </tr>;
+            
+                <tr id="DeleteSize{{ $i_s }}" style="display:none;">
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]"  placeholder="size"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]"  placeholder="quantity"></td>
+                  <td>
+                    <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger sizeRemove"> Remove </a>
+                  </td>
+                </tr>
                 @php
                 $i_s++;
                 @endphp
-                @endforeach
+
                 <tr>
-                  <td><input class="form-control" type="text" name="size[]" id="size" placeholder="size"></td>
-                  <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" placeholder="size"></td>
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" placeholder="quantity"></td>
                   <td style="width:100px;"> 
-                    <a class="btn btn-primary" id="sizeAdd"  > Add </aclass>
+                    <a class="btn btn-primary" id="sizeAdd"> Add </a>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+
+        <div class="col-md-12">
+    <div class="form-group">
+        <label for="image">Post Image <span style="color:red;">*</span></label>
+        @if($errors->has('image'))
+            <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+        @endif
+        <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple accept="image/*">
+    </div>
+</div>
 
         <div class="col-md-12">
           <hr>
@@ -240,23 +250,23 @@
 
   
     //--//
-    $('body').on('click', '#sizeAdd', function(e){
-      e.preventDefault();
-      let html = '<tr id="DeleteSize'+i+'">\n\
-                    <td><input class="form-control" type="text" name="size[]" value='+i+' id="size" placeholder="size"></td>\n\
-                    <td><input class="form-control" type="text" name="quantity[]" id="quantity" placeholder="quantity"></td>\n\
-                    <td>\n\
-                      <a href="javascript:void(0);" id="'+i+'" class="btn btn-danger deleteSize"> Delete </a>\n\
-                    </td>\n\
-                  </tr>';
-                  i++;
-      $('.appendSize').append(html);
+  let i = 1;
+  $(document).ready(function () {
+    $('#sizeAdd').click(function () {
+      var sizeRow =   
+      '<tr id="sizeRemove'+i+'">\n\
+      <td><input class="form-control" type="text" name="size['+i+'][size]" placeholder="size"></td>\n\
+      <td><input class="form-control" type="text" name="size['+i+'][quantity]" placeholder="quantity"></td>\n\
+      <td><a id="'+i+'" class="btn btn-danger sizeRemove"> Remove </a></td>\n\
+      </tr>';
+      $('.appendSize').append(sizeRow);
+      i++;
     });
 
-    $('body').on('click','.deleteSize', function(e){
-      var id = $(this).attr('id');
-      $('#DeleteSize'+id).remove();
+    $(document).on('click', '.sizeRemove', function () {
+      $(this).closest('tr').remove();
     });
+  });
     
     $('#category_id').change(function(e) {
       var id = $(this).val();
@@ -277,6 +287,10 @@
       });
     });
   });
+</script>
+
+<script>
+
 </script>
 
 @endsection
