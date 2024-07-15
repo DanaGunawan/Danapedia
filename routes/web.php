@@ -82,6 +82,9 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
 
     //delete image
     Route::get('admin/products/delete_image/{id}',[productControllers::class,'delete_image']);
+    Route::post('admin/products_image_sortable',[productControllers::class,'products_image_sortable']);
+
+    
 
 
 });

@@ -37,7 +37,7 @@ class products extends Model
         }
 
         public function getImage(){
-            return $this->hasMany(product_image::class,'product_id');
+            return $this->hasMany(product_image::class,'product_id')->orderBy('order_by','asc');
         }
 
         

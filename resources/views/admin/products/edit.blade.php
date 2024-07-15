@@ -44,7 +44,8 @@
               <option value="">--Select Category--</option>
               @foreach ($categoryList as $list)
           <option {{ ($singleProduct->category_id == $list->id) ? 'selected' : ''}} value="{{ $list->id }}">
-          {{ $list->name }}</option>
+          {{ $list->name }}
+          </option>
         @endforeach
             </select>
           </div>
@@ -60,7 +61,8 @@
               <option value="">-- Select Sub Category --</option>
               @foreach ($subCategory as $list)
           <option {{ ($singleProduct->sub_category_id == $list->id) ? 'selected' : '' }} value="{{ $list->id }}">
-          {{ $list->name }}</option>
+          {{ $list->name }}
+          </option>
         @endforeach
             </select>
           </div>
@@ -76,7 +78,8 @@
               <option value="">--Select Brand--</option>
               @foreach ($brandList as $list)
           <option {{ ($singleProduct->brand_id == $list->id) ? 'selected' : ''}} value="{{ $list->id }}">
-          {{ $list->name }}</option>
+          {{ $list->name }}
+          </option>
         @endforeach
             </select>
           </div>
@@ -108,7 +111,8 @@
       @endif
         @endforeach
                 <div class="col-md-3">
-                <label><input {{ $check }} type="checkbox" name="color_id[]" value="{{ $color->id }}"> {{  $color->name}} </label>
+                <label><input {{ $check }} type="checkbox" name="color_id[]" value="{{ $color->id }}">
+                  {{  $color->name}} </label>
                 </div>
         @endforeach
             </div>
@@ -129,25 +133,28 @@
               </thead>
 
               @php
-              $i_s = 1;
-              @endphp
+        $i_s = 1;
+        @endphp
               <tbody class="appendSize">
                 @foreach ($singleProduct->getSize as $size)
-                <tr id="DeleteSize{{ $i_s }}">
-                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}' placeholder="size"></td>
-                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" value='{{ $size->quantity }}' placeholder="quantity"></td>
-                  <td>
+                  <tr id="DeleteSize{{ $i_s }}">
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" value='{{ $size->size }}'
+                      placeholder="size"></td>
+                    <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]"
+                      value='{{ $size->quantity }}' placeholder="quantity"></td>
+                    <td>
                     <a href="javascript:void(0);" id="{{ $i_s }}" class="btn btn-danger sizeRemove"> Remove </a>
-                  </td>
-                </tr>
-                @php
-                $i_s++;
-                @endphp
-                @endforeach
+                    </td>
+                  </tr>
+                  @php
+          $i_s++;
+          @endphp
+        @endforeach
                 <tr>
                   <td><input class="form-control" type="text" name="size[{{ $i_s }}][size]" placeholder="size"></td>
-                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" placeholder="quantity"></td>
-                  <td style="width:100px;"> 
+                  <td><input class="form-control" type="text" name="size[{{ $i_s }}][quantity]" placeholder="quantity">
+                  </td>
+                  <td style="width:100px;">
                     <a class="btn btn-primary" id="sizeAdd"> Add </a>
                   </td>
                 </tr>
@@ -155,32 +162,34 @@
             </table>
           </div>
         </div>
-        
-        
+
+
         <div class="col-md-12">
           <div class="form-group">
             <label for="image">Post Image <span style="color:red;">*</span></label>
             @if($errors->has('image'))
-              <div class="alert alert-danger">{{ $errors->first('image') }}</div>
-            @endif
-            <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple accept="image/*">
+        <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+      @endif
+            <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple
+              accept="image/*">
           </div>
         </div>
 
         @if(!empty($singleProduct->getImage->count()))
-          <div class="col-md-12">
-            <div class="row">
-              @foreach ($singleProduct->getImage as $image)
-                @if(!empty($image->imageUrl()))
-                  <div class="col-md-2" style="text-align:center;">
-                    <img src="{{ $image->imageUrl() }}" style="width:100%; height:200px;">
-                    <a href="/admin/products/delete_image/{{ $image->id }}" style="margin-top:10px;" class="btn btn-danger btn-sm" onclick="return confirmDelete()"> delete </a>
-                  </div>
-                @endif
-              @endforeach
-            </div>
-          </div>
-        @endif
+      <div class="col-md-12">
+        <div class="row" id="sortable">
+        @foreach ($singleProduct->getImage as $image)
+      @if(!empty($image->imageUrl()))
+      <div class="col-md-2 sortable_image" id="{{ $image->id }}" style="text-align:center;">
+      <img src="{{ $image->imageUrl() }}" style="width:100%; height:200px;">
+      <a href="/admin/products/delete_image/{{ $image->id }}" style="margin-top:10px;"
+      class="btn btn-danger btn-sm" onclick="return confirmDelete()"> delete </a>
+      </div>
+    @endif
+    @endforeach
+        </div>
+      </div>
+    @endif
 
 
         <div class="col-md-12">
@@ -263,48 +272,52 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  function confirmDelete() {
-    return confirm('Apakah anda yakin ingin menghapus Gambar?');
-}
+
   $(document).ready(function () {
-    $('#category_id').change(function () {
-      var categoryID = $(this).val();
-      if (categoryID) {
-        $.ajax({
-          url: '/getSubCategory/' + categoryID,
-          type: 'GET',
-          dataType: 'json',
-          success: function (data) {
-            $('#subCategory_id').empty();
-            $('#subCategory_id').append('<option value="">-- Select Sub Category --</option>');
-            $.each(data, function (key, value) {
-              $('#subCategory_id').append('<option value="' + key + '">' + value + '</option>');
-            });
-          }
-        });
-      } else {
-        $('#subCategory_id').empty();
-      }
+
+    $('#category_id').change(function (e) {
+      var id = $(this).val();
+      $.ajax({
+        type: "post",
+        url: "{{ url('admin/getSubCategory') }}",
+        data: {
+          id: id,
+          _token: '{{ csrf_token() }}'
+        },
+        dataType: "json",
+        success: function (data) {
+          $('#subCategory_id').html(data.options);
+        },
+        error: function (xhr, status, error) {
+          console.log('Error:', xhr.responseText);
+        }
+      });
     });
   });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+
 <script>
   $(document).ready(function () {
     $('.editor').summernote();
+
+
   });
+
+
 </script>
 
 <script>
   let i = 1;
   $(document).ready(function () {
     $('#sizeAdd').click(function () {
-      var sizeRow =   
-      '<tr id="sizeRemove'+i+'">\n\
-      <td><input class="form-control" type="text" name="size['+i+'][size]" placeholder="size"></td>\n\
-      <td><input class="form-control" type="text" name="size['+i+'][quantity]" placeholder="quantity"></td>\n\
-      <td><a id="'+i+'" class="btn btn-danger sizeRemove"> Remove </a></td>\n\
+      var sizeRow =
+        '<tr id="sizeRemove' + i + '">\n\
+      <td><input class="form-control" type="text" name="size['+ i + '][size]" placeholder="size"></td>\n\
+      <td><input class="form-control" type="text" name="size['+ i + '][quantity]" placeholder="quantity"></td>\n\
+      <td><a id="'+ i + '" class="btn btn-danger sizeRemove"> Remove </a></td>\n\
       </tr>';
       $('.appendSize').append(sizeRow);
       i++;
@@ -316,5 +329,41 @@
   });
 </script>
 
+<script>
+  function confirmDelete() {
+    return confirm('Apakah anda yakin ingin menghapus Gambar?');
+  }
+
+
+
+
+    $("#sortable").sortable({
+        update: function(event, ui) {
+            var photo_id = [];
+            $('.sortable_image').each(function() {
+                var id = $(this).attr('id');
+                photo_id.push(id);
+            
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('admin/products_image_sortable') }}",
+                data: {
+                    'photo_id': photo_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#subCategory_id').html(data.options);
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', xhr.responseText);
+                }
+            });
+        }
+    });
+
+</script>
 
 @endsection

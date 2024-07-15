@@ -219,7 +219,20 @@ class productControllers extends Controller
      $image->delete();
 
      return redirect()->back()->with('success', 'Product Image successfully deleted');
+    }
 
+    public function products_image_sortable(Request $request){
+        $i = 1;
+        if(!empty($request->photo_id)){
+            foreach($request->photo_id as $photo_id){
+                $product_image = product_image::getSingleImage($photo_id);
+                $product_image->order_by = $i;
+                $product_image->save();
+                $i++;
+            }
+        }
+        $json['success'] = true;
+        echo json_encode($json);
     }
 }
 
