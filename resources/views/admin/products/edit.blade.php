@@ -5,6 +5,8 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
+@include('admin/layouts/_message')
+
 <div class="card">
   <form action="" method="post" enctype="multipart/form-data">
     @csrf
@@ -154,15 +156,31 @@
           </div>
         </div>
         
+        
         <div class="col-md-12">
-    <div class="form-group">
-        <label for="image">Post Image <span style="color:red;">*</span></label>
-        @if($errors->has('image'))
-            <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+          <div class="form-group">
+            <label for="image">Post Image <span style="color:red;">*</span></label>
+            @if($errors->has('image'))
+              <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+            @endif
+            <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple accept="image/*">
+          </div>
+        </div>
+
+        @if(!empty($singleProduct->getImage->count()))
+          <div class="col-md-12">
+            <div class="row">
+              @foreach ($singleProduct->getImage as $image)
+                @if(!empty($image->imageUrl()))
+                  <div class="col-md-2" style="text-align:center;">
+                    <img src="{{ $image->imageUrl() }}" style="width:100%; height:200px;">
+                    <a href="/admin/products/delete_image/{{ $image->id }}" style="margin-top:10px;" class="btn btn-danger btn-sm" onclick="return confirmDelete()"> delete </a>
+                  </div>
+                @endif
+              @endforeach
+            </div>
+          </div>
         @endif
-        <input type="file" id="image" name="image[]" class="form-control" style="padding:5px;" multiple accept="image/*">
-    </div>
-</div>
 
 
         <div class="col-md-12">
@@ -245,6 +263,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  function confirmDelete() {
+    return confirm('Apakah anda yakin ingin menghapus Gambar?');
+}
   $(document).ready(function () {
     $('#category_id').change(function () {
       var categoryID = $(this).val();

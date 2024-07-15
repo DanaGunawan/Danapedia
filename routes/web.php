@@ -80,4 +80,8 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     Route::post('admin/products/edit/{id}'  , [productControllers::class,'update']);
     Route::get('admin/products/delete/{id}',[productControllers::class,'delete']);
 
+    //delete image
+    Route::get('admin/products/delete_image/{id}',[productControllers::class,'delete_image']);
+
+
 });

@@ -89,19 +89,12 @@ class productControllers extends Controller
                         $product_image->image_name = $filename;
                         $product_image->image_extension = $ext;
                         $product_image->save();
-
-
-
                     }
                 }
             }
         }
-
         return redirect('admin/products/list')->with('success' , 'product baru sukses di buat');
     }
-
-
-
 
 
     public function edit($id) {
@@ -216,6 +209,16 @@ class productControllers extends Controller
     public function delete($id){
         products::where('id','=',$id)->delete();
         return redirect('admin/products/list')->with('success', 'Product successfully deleted');
+    }
+
+    public function delete_image($id){
+      $image = product_image::getSingleImage($id);
+     if(!empty($image->imageUrl())){
+        unlink(public_path('gallery/products/' . $image->image_name));
+    }
+     $image->delete();
+
+     return redirect()->back()->with('success', 'Product Image successfully deleted');
 
     }
 }
