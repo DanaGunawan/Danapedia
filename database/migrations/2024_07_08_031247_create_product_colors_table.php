@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_colors', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->integer('color_id');
+            $table->timestamps('created_at')->nullable();
+            $table->timestamps('updated_at')->nullable();
             $table->timestamps();
         });
     }

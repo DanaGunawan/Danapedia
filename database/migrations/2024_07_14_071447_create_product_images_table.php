@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->string('image_name');
+            $table->string('image_extension');
+            $table->integer('order_by');
+            $table->timestamps('created_at')->nullable();
+            $table->timestamps('updated_at')->nullable();
             $table->timestamps();
         });
     }
