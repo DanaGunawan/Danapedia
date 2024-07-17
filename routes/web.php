@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeControllers;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers;
 use App\Http\Controllers\admin\AdminControllers;
@@ -10,10 +11,11 @@ use App\Http\Controllers\admin\subCategoryControllers;
 use App\Http\Controllers\admin\brandControllers;
 use App\Http\Controllers\admin\colorControllers;
 
+Route::get('/', [HomeControllers::class,'home']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+
 
 //admin login
 Route::group(['middleware' => 'AdminSudahLogin'], function(){
@@ -83,8 +85,4 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     //delete image
     Route::get('admin/products/delete_image/{id}',[productControllers::class,'delete_image']);
     Route::post('admin/products_image_sortable',[productControllers::class,'products_image_sortable']);
-
-    
-
-
 });

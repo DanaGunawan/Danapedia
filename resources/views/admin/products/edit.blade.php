@@ -334,9 +334,6 @@
     return confirm('Apakah anda yakin ingin menghapus Gambar?');
   }
 
-
-
-
     $("#sortable").sortable({
         update: function(event, ui) {
             var photo_id = [];
