@@ -27,6 +27,15 @@ class Category extends Model
         where('category.status' ,'=' , 'Active')->
         orderBy('id','desc')->paginate(15)->withQueryString();
     }
+
+    public static function getCategoryFront(){
+        return self::select('category.*')->
+        where('category.is_deleted','=' , 0)->
+        where('category.status' ,'=' , 'Active')->get();
+    }
+
+
+
     public static function getSingleCategory($id){
         return self::select('category.*', 'users.name as created_by')
             ->join('users', 'users.id', '=', 'category.created_by')
@@ -34,5 +43,11 @@ class Category extends Model
             ->orderBy('category.id', 'desc')
             ->first();
     }
+
+    public function getSubCategory(){
+        return $this->hasMany(subCategory::class,'category_id')->where('sub_category.status', '=', 'Active')->where('sub_category.is_deleted', '=','0');
+    }
+
+    
     
 }
