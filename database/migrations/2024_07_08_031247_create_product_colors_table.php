@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->integer('color_id');
-            $table->timestamps('created_at')->nullable();
-            $table->timestamps('updated_at')->nullable();
             $table->timestamps();
         });
     }

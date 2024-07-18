@@ -16,8 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('size');
             $table->integer('quantity');
-            $table->timestamps('created_at')->nullable();
-            $table->timestamps('updated_at')->nullable();
             $table->timestamps();
         });
     }

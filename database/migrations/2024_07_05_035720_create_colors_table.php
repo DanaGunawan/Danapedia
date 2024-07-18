@@ -17,9 +17,7 @@ return new class extends Migration
             $table->String('code');
             $table->String('created_by');
             $table->tinyInteger('is_deleted')->default(0);
-            $table->tinyInteger('status')->default('Active');
-            $table->timestamps('created_at')->nullable();
-            $table->timestamps('updated_at')->nullable();
+            $table->String('status')->default('Active');
             $table->timestamps();
 
         });

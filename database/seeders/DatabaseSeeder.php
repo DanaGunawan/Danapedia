@@ -21,6 +21,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'is_admin' => '1',
             'password' => bcrypt('123456'),
+             'status' => 'Active'
+        ]);
+
+        $this->call([
+            CategorySeeder::class,
+            SubCategorySeeder::class,
+            BrandsSeeder::class, 
+            ColorSeeder::class,
         ]);
     }
 }

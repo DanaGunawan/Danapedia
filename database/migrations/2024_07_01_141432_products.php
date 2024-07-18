@@ -26,7 +26,6 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->text('additional_informations')->nullable();
             $table->string('shipping_returns', 120)->nullable();
-            $table->timestamp('created_at')->useCurrent()->nullable();
             $table->string('created_by')->useCurrent()->nullable();
             $table->string('related_product', 255)->nullable();
             $table->string('images', 150)->nullable();
