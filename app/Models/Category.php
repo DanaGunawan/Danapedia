@@ -34,6 +34,14 @@ class Category extends Model
         where('category.status' ,'=' , 'Active')->get();
     }
 
+    public static function getCategorySlug($slug){
+       return self::where('slug','=',$slug)->
+       where('category.is_deleted','=' , 0)->
+       where('category.status' ,'=' , 'Active')->first();
+    }
+
+
+
 
 
     public static function getSingleCategory($id){

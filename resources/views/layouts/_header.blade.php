@@ -47,7 +47,7 @@
                 </button>
 
                 <a href="index.html" class="logo">
-                    <img src="homeAssets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                    <img src="{{url('assets/images/logo.png') }}" alt="Molla Logo" width="105" height="25">
                 </a>
 
                 <nav class="main-nav">
@@ -131,7 +131,7 @@
 
                                 <figure class="product-image-container">
                                     <a href="product.html" class="product-image">
-                                        <img src="homeAssets/images/products/cart/product-1.jpg" alt="product">
+                                        <img src="assets/images/products/cart/product-1.jpg" alt="product">
                                     </a>
                                 </figure>
                                 <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
@@ -151,7 +151,7 @@
 
                                 <figure class="product-image-container">
                                     <a href="product.html" class="product-image">
-                                        <img src="homeAssets/images/products/cart/product-2.jpg" alt="product">
+                                        <img src="assets/images/products/cart/product-2.jpg" alt="product">
                                     </a>
                                 </figure>
                                 <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>

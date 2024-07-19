@@ -10,12 +10,9 @@ use App\Http\Controllers\admin\DashboardControllers;
 use App\Http\Controllers\admin\subCategoryControllers;
 use App\Http\Controllers\admin\brandControllers;
 use App\Http\Controllers\admin\colorControllers;
+use App\Http\Controllers\productControllers as productFront;
 
 Route::get('/', [HomeControllers::class,'home']);
-
-
-
-
 
 //admin login
 Route::group(['middleware' => 'AdminSudahLogin'], function(){
@@ -86,3 +83,5 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     Route::get('admin/products/delete_image/{id}',[productControllers::class,'delete_image']);
     Route::post('admin/products_image_sortable',[productControllers::class,'products_image_sortable']);
 });
+
+Route::get('{category?}/{sub_category?}',[productFront::class,'getCategory']);

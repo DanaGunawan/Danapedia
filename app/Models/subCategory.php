@@ -24,6 +24,12 @@ class subCategory extends Model
         return subCategory::find($id);
     }
     
+    public static function getSubCategorySlug($slug){
+        return self::where('slug','=',$slug)->
+        where('sub_category.is_deleted','=' , 0)->
+        where('sub_category.status' ,'=' , 'Active')->first();
+     }
+
 
     static public function getSubCategoryconnect($id)
     {

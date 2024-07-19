@@ -4,7 +4,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{{url('homeAssets/images/logo-footer.png')}}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{{url('assets/images/logo-footer.png')}}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">
@@ -67,7 +67,7 @@
 	        	<div class="container">
 	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
 	        		<figure class="footer-payments">
-	        			<img src="{{url('homeAssets/images/payments.png')}}" alt="Payment methods" width="272" height="20">
+	        			<img src="{{url('assets/images/payments.png')}}" alt="Payment methods" width="272" height="20">
 	        		</figure>
 	        	</div>
 	        </div>
