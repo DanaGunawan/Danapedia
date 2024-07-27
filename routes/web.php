@@ -84,4 +84,4 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
     Route::post('admin/products_image_sortable',[productControllers::class,'products_image_sortable']);
 });
 
-Route::get('{category?}/{sub_category?}',[productFront::class,'getCategory']);
+Route::get('{category?}/{sub_category?}',[productFront::class,'CategoryData']);

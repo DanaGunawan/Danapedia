@@ -22,7 +22,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Baju',
                 'slug' => Str::slug('Baju'),
-                'meta_title' => 'Kategori Baju',
+                'meta_title' => ' Baju',
                 'meta_description' => 'Koleksi berbagai jenis baju',
                 'meta_keywords' => 'baju, fashion, pakaian',
                 'status' => 'Active',
@@ -34,7 +34,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Celana',
                 'slug' => Str::slug('Celana'),
-                'meta_title' => 'Kategori Celana',
+                'meta_title' => ' Celana',
                 'meta_description' => 'Koleksi berbagai jenis celana',
                 'meta_keywords' => 'celana, fashion, pakaian',
                 'status' => 'Active',
@@ -46,7 +46,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Topi',
                 'slug' => Str::slug('Topi'),
-                'meta_title' => 'Kategori Topi',
+                'meta_title' => ' Topi',
                 'meta_description' => 'Koleksi berbagai jenis topi',
                 'meta_keywords' => 'topi, fashion, aksesoris',
                 'status' => 'Active',
@@ -58,7 +58,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Polo',
                 'slug' => Str::slug('Polo'),
-                'meta_title' => 'Kategori Polo',
+                'meta_title' => ' Polo',
                 'meta_description' => 'Koleksi berbagai jenis polo',
                 'meta_keywords' => 'polo, baju, fashion',
                 'status' => 'Active',
@@ -70,7 +70,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Sepatu',
                 'slug' => Str::slug('Sepatu'),
-                'meta_title' => 'Kategori Sepatu',
+                'meta_title' => ' Sepatu',
                 'meta_description' => 'Koleksi berbagai jenis sepatu',
                 'meta_keywords' => 'sepatu, sneakers, boots, footwear',
                 'status' => 'Active',
