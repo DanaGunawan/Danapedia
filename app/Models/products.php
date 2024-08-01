@@ -26,9 +26,11 @@ class products extends Model
         }
 
         public static function getProductsFront($categoryId = '', $subCategoryId = '') {
-            $query = self::select('products.*', 'users.name as created_by')
+            $query = self::select('products.*', 'users.name as created_by','category.slug as category_slug','category.name as category_name',
+                'sub_category.slug as sub_category_slug','sub_category.name as sub_category_name')
                 ->join('users', 'users.id', '=', 'products.created_by')
                 ->join('category', 'category.id', '=', 'products.category_id')
+                ->join('sub_category','sub_category.id' ,'=','products.sub_category_id')
                 ->where('products.is_deleted', 0);
         
             if (!empty($categoryId)) {
@@ -40,6 +42,10 @@ class products extends Model
             }
         
             return $query->orderBy('products.id', 'desc')->paginate(15)->withQueryString();
+        }
+
+        static public function getSingleImage($id){
+            return product_image::where('product_id', $id)->orderBy('order_by','asc')->first();
         }
 
         static public function getSingleProduct($id){
