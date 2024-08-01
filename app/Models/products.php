@@ -22,7 +22,25 @@ class products extends Model
         join('users','users.id','=','products.created_by')->
         join('category', 'category.id', '=', 'products.category_id')->
         where('products.is_deleted','=' , 0)->
-        orderBy('id','desc')->paginate(15)->withQueryString();    }
+        orderBy('id','desc')->paginate(15)->withQueryString();    
+        }
+
+        public static function getProductsFront($categoryId = '', $subCategoryId = '') {
+            $query = self::select('products.*', 'users.name as created_by')
+                ->join('users', 'users.id', '=', 'products.created_by')
+                ->join('category', 'category.id', '=', 'products.category_id')
+                ->where('products.is_deleted', 0);
+        
+            if (!empty($categoryId)) {
+                $query->where('products.category_id', $categoryId);
+            }
+        
+            if (!empty($subCategoryId)) {
+                $query->where('products.sub_category_id', $subCategoryId);
+            }
+        
+            return $query->orderBy('products.id', 'desc')->paginate(15)->withQueryString();
+        }
 
         static public function getSingleProduct($id){
             return self::find($id);

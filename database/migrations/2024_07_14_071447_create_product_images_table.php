@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('image_name');
             $table->string('image_extension');
-            $table->integer('order_by');
+            $table->integer('order_by')->default(100);
             $table->timestamps();
         });
     }

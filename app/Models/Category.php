@@ -40,6 +40,8 @@ class Category extends Model
        where('category.status' ,'=' , 'Active')->first();
     }
 
+    
+
 
 
 

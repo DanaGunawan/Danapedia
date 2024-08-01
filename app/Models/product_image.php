@@ -10,7 +10,7 @@ class product_image extends Model
 {
     use HasFactory;
 
-    protected $table = "product_image";
+    protected $table = "product_images";
 
 
 

@@ -48,39 +48,53 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ( $products as $product)
-            <tr>
-              <td>{{ $product->id }}</td>
-              <td>{{ $product->title }}</td>
-              <td>{{ $product->price }}</td>
-              <td><img src="{{ asset('storage/'.$product->image) }}" width="100px
-              "></td>
-              <td>{{ $product->created_by }}</td>
-              <td>{{ $product->created_at }}</td>
-              <td>
-          <span
-            class="{{ $product['status'] == 'Active' ? 'bg-success' : 'bg-danger' }} text-white rounded-pill p-1 text-center"
-            style="display: inline-block; min-width: 80px;">
-            {{ $product['status'] }}
-          </span>
-          </td>
-          <td> 
-          <a href="/admin/products/edit/{{$product["id"]}}" class="btn btn-primary" style="align"> Edit </a>
-          <a href="/admin/products/delete/{{$product["id"]}}" class="btn btn-danger" id="delete" onclick="return confirmDelete()">Delete</a>
+            @foreach ($products as $product)
+              <tr>
+                <td>{{ $product->id }}</td>
+                <td>{{ $product->title }}</td>
+                <td>{{ $product->price }}</td>
+                <td>
+                @php
+            $images = $product->getImage;
+          @endphp
+                @if ($images->isNotEmpty())
+              @php
+        $firstImage = $images->first()->imageUrl();
+      @endphp
+              @if (!empty($firstImage))
+          <img src="{{ $firstImage }}" style="width:100px; height:80px;">
+        @endif
+        @endif
+                </td>
 
-          </td>
-            </tr>
+                </td>
+                <td>{{ $product->created_by }}</td>
+                <td>{{ $product->created_at }}</td>
+                <td>
+                <span
+                  class="{{ $product['status'] == 'Active' ? 'bg-success' : 'bg-danger' }} text-white rounded-pill p-1 text-center"
+                  style="display: inline-block; min-width: 80px;">
+                  {{ $product['status'] }}
+                </span>
+                </td>
+                <td>
+                <a href="/admin/products/edit/{{$product["id"]}}" class="btn btn-primary" style="align"> Edit </a>
+                <a href="/admin/products/delete/{{$product["id"]}}" class="btn btn-danger" id="delete"
+                  onclick="return confirmDelete()">Delete</a>
 
-            
-            @endforeach
+                </td>
+              </tr>
+
+
+      @endforeach
           </tbody>
         </table>
 
         <div style="padding:10px; float:right;">
-          {!! $products->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!} 
+          {!! $products->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
         </div>
 
-        
+
       </div>
     </div>
   </div>
@@ -89,9 +103,9 @@
 </section>
 
 <script>
-function confirmDelete() {
+  function confirmDelete() {
     return confirm('Apakah anda yakin ingin menghapus?');
-}
+  }
 </script>
 
 @endsection

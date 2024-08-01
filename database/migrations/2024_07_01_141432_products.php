@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->string('slug',255)->nullable;
+            $table->string('sku',255)->nullable;
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('sub_category_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
@@ -24,8 +25,8 @@ return new class extends Migration
             $table->double('price')->default(0);
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
-            $table->text('additional_informations')->nullable();
-            $table->string('shipping_returns', 120)->nullable();
+            $table->text('additional_information')->nullable();
+            $table->string('shipping_return', 120)->nullable();
             $table->string('created_by')->useCurrent()->nullable();
             $table->string('related_product', 255)->nullable();
             $table->string('images', 150)->nullable();
