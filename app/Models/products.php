@@ -41,7 +41,7 @@ class products extends Model
                 $query->where('products.sub_category_id', $subCategoryId);
             }
         
-            return $query->orderBy('products.id', 'desc')->paginate(15)->withQueryString();
+            return $query->orderBy('products.id', 'desc')->paginate(1)->withQueryString();
         }
 
         static public function getSingleImage($id){
