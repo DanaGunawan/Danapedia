@@ -5,6 +5,7 @@ use App\Models\product_color;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Request;
 
 class products extends Model
 {
@@ -41,8 +42,15 @@ class products extends Model
                 $query->where('products.sub_category_id', $subCategoryId);
             }
         
+            if(!empty(Request::get('ajax_sub_category_id'))){
+                $ajax_sub_category_id = rtrim(Request::get("ajax_sub_category_id"), ',');
+                $ajax_sub_category_id_array = explode(',', $ajax_sub_category_id);
+                $query = $query->whereIn('products.sub_category_id', $ajax_sub_category_id_array);
+            }
+
             return $query->orderBy('products.id', 'desc')->paginate(6)->withQueryString();
         }
+
 
         static public function getSingleImage($id){
             return product_image::where('product_id', $id)->orderBy('order_by','asc')->first();

@@ -47,9 +47,10 @@ class productControllers extends Controller
         }
         else{
             abort(404);
-        }
+        }     
+    }
 
-
-       
+    public function ProductFilteringAjax(){
+        
     }
 }

@@ -85,3 +85,4 @@ Route::group(['middleware' => 'AdminMiddleware'], function(){
 });
 
 Route::get('{category?}/{sub_category?}',[productFront::class,'CategoryData']);
+Route::POST('ProductFilteringAjax',[productFront::class,'ProductFilteringAjax']);
