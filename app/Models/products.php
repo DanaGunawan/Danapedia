@@ -27,12 +27,11 @@ class products extends Model
         }
 
         public static function getProductsFront($categoryId = '', $subCategoryId = '') {
-            $query = self::select('products.*', 'users.name as created_by','category.slug as category_slug','category.name as category_name',
+            $query = self::select('products.*', 'users.name as sell_by','category.slug as category_slug','category.name as category_name',
                 'sub_category.slug as sub_category_slug','sub_category.name as sub_category_name')
                 ->join('users', 'users.id', '=', 'products.created_by')
                 ->join('category', 'category.id', '=', 'products.category_id')
-                ->join('sub_category','sub_category.id' ,'=','products.sub_category_id')
-                ->where('products.is_deleted', 0);
+                ->join('sub_category','sub_category.id' ,'=','products.sub_category_id');
         
             if (!empty($categoryId)) {
                 $query->where('products.category_id', $categoryId);
@@ -48,7 +47,25 @@ class products extends Model
                 $query = $query->whereIn('products.sub_category_id', $ajax_sub_category_id_array);
             }
 
-            return $query->orderBy('products.id', 'desc')->paginate(6)->withQueryString();
+            if(!empty(Request::get('ajax_color_id'))){
+                $ajax_color_id = rtrim(Request::get("ajax_color_id"), ',');
+                $ajax_color_id_array = explode(',', $ajax_color_id);
+                $query = $query->join('product_colors','product_colors.product_id','=','products.id');
+                $query = $query->whereIn('products.colors', $ajax_color_id_array);
+            }
+            if(!empty(Request::get('ajax_brand_id'))){
+                $ajax_brand_id = rtrim(Request::get('ajax_brand_id'),',');
+                $ajax_brand_id_array = explode(',', $ajax_brand_id);
+                $query = $query->whereIn('products.brand_id', $ajax_brand_id_array);
+
+            }
+
+            return $query->where('products.is_deleted', 0)
+            ->where('products.status', 'Active')
+            ->orderBy('products.id', 'desc')
+            ->groupBy('products.id')
+            ->paginate(16)
+            ->withQueryString();
         }
 
 

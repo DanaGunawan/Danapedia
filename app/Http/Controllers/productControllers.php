@@ -50,7 +50,12 @@ class productControllers extends Controller
         }     
     }
 
-    public function ProductFilteringAjax(){
-        
+    public function ProductFilteringAjax(Request $request){
+        $getproduct = Products::getProductsFront();
+        return response()->json([
+            'status' => true,
+            'success' => view('products._list',["product_data" => $getproduct])->render(),
+
+        ],200);
     }
 }

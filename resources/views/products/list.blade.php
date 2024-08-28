@@ -73,79 +73,10 @@
                         </div><!-- End .toolbox-right -->
                     </div><!-- End .toolbox -->
 
-                    <div class="products mb-3">
-                        <div class="row justify-content-center">
-
-
-
-                            @foreach ($product_data as $product)
-                                                        @php
-                                                            $get_image_single = $product::getSingleImage($product->id);
-                                                        @endphp
-                                                        <div class="col-12 col-md-4 col-lg-4">
-                                                            <div class="product product-7 text-center">
-                                                                <figure class="product-media">
-                                                                    <span class="product-label label-new">New</span>
-
-                                                                    @if(!empty($get_image_single->image_name) && !empty($get_image_single->imageUrl()))
-                                                                        <img src="{{ $get_image_single->imageUrl() }}"
-                                                                            style="width:280px; height:280px; object-fit:cover;" alt="Product image"
-                                                                            class="product-image">
-                                                                        </a>
-                                                                    @endif
-                                                                    <div class="product-action-vertical">
-                                                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
-                                                                                to wishlist</span></a>
-                                                                    </div>
-                                                                </figure>
-
-                                                                <div class="product-body">
-                                                                    <div class="product-cat">
-                                                                        <a href="{{ url($product->category_slug . '/' . '') }}">
-                                                                            {{ $product->category_name }}
-                                                                        </a>
-                                                                        <br>
-                                                                        <a
-                                                                            href="{{ url($product->category_slug . '/' . $product->sub_category_slug) }}">
-                                                                            {{ $product->sub_category_name }}
-                                                                        </a>
-                                                                    </div>
-                                                                    <h3 class="product-title"><a
-                                                                            href="{{ url($product->slug) }}">{{ $product->title }}</a></h3>
-                                                                    <div class="product-price">
-                                                                        Rp {{ number_format($product->price, 2) }}
-                                                                    </div>
-                                                                    <div class="ratings-container">
-                                                                        <div class="ratings">
-                                                                            <div class="ratings-val" style="width: 20%;"></div>
-                                                                        </div>
-                                                                        <span class="ratings-text">( 2 Reviews )</span>
-                                                                    </div>
-
-                                                                    <div class="product-nav product-nav-thumbs">
-                                                                        <a href="#" class="active">
-                                                                            <img src="{{ url('')}}/assets/images/products/product-4-thumb.jpg"
-                                                                                alt="product desc">
-                                                                        </a>
-                                                                        <a href="#">
-                                                                            <img src="{{ url('')}}/assets/images/products/product-4-2-thumb.jpg"
-                                                                                alt="product desc">
-                                                                        </a>
-
-                                                                        <a href="#">
-                                                                            <img src="{{ url('')}}/assets/images/products/product-4-3-thumb.jpg"
-                                                                                alt="product desc">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                            @endforeach
-
-
-                        </div><!-- End .row -->
-                    </div><!-- End .products -->
-
+                    <div id="getProductAjax">
+                    @include('products._list')
+                    </div>
+                    
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             {!! $product_data->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
@@ -156,10 +87,10 @@
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" class="filterForm" id="FilterForm">
                         @csrf
-                        <input type="text" name="ajax_sub_category_id" id="get_sub_category_id">
-                        <input type="text" name="ajax_brand_id" id="get_brand_id">
-                        <input type="text" name="ajax_color_id" id="get_color_id">
-                        <input type="text" name="ajax_sort_id" id="get_sort_by_id">
+                        <input type="hidden" name="ajax_sub_category_id" id="get_sub_category_id">
+                        <input type="hidden" name="ajax_brand_id" id="get_brand_id">
+                        <input type="hidden" name="ajax_color_id" id="get_color_id">
+                        <input type="hidden" name="ajax_sort_id" id="get_sort_by_id">
                     </form>
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
@@ -406,7 +337,7 @@
             url : "{{ url('ProductFilteringAjax') }}",
             dataType: "json",
             success: function (data) {
-
+                $('#getProductAjax').html(data.success);
             },
             error: function (data){
                 console.log("Error" + data);
