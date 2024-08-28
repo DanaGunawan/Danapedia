@@ -91,6 +91,8 @@
                         <input type="hidden" name="ajax_brand_id" id="get_brand_id">
                         <input type="hidden" name="ajax_color_id" id="get_color_id">
                         <input type="hidden" name="ajax_sort_id" id="get_sort_by_id">
+                        <input type="text" name="ajax_start_price" id="ajax_start_price">
+                        <input type="text" name="ajax_end_price" id="ajax_end_price">
                     </form>
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
@@ -345,6 +347,36 @@
             
         });
     }
+
+      if ( typeof noUiSlider === 'object' ) {
+		var priceSlider  = document.getElementById('price-slider');
+
+
+		noUiSlider.create(priceSlider, {
+			start: [ 0, 75000 ],
+			connect: true,
+			step: 1000,
+			margin: 0,
+			range: {
+				'min': 0,
+				'max': 300000
+			},
+			tooltips: true,
+			format: wNumb({
+		        decimals: 0,
+		        prefix: 'Rp'
+		    })
+		});
+
+		priceSlider.noUiSlider.on('update', function( values, handle ){
+            let startValue = values[0];
+            let endValue = values[1];
+			$('#filter-price-range').text(values.join(' - '));
+            $('#ajax_start_price').val(startValue);
+            $('#ajax_end_price').val(endValue);
+            FilterForm();
+		});
+	}
 
 </script>
 

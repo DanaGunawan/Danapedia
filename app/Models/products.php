@@ -57,6 +57,13 @@ class products extends Model
                 $ajax_brand_id = rtrim(Request::get('ajax_brand_id'),',');
                 $ajax_brand_id_array = explode(',', $ajax_brand_id);
                 $query = $query->whereIn('products.brand_id', $ajax_brand_id_array);
+            }
+            if(!empty(Request::get('ajax_start_price') && Request::get('ajax_end_price'))){
+                $start_price = str_replace('Rp','',Request::get('ajax_start_price'));
+                $end_price = str_replace('Rp','',Request::get('ajax_end_price'));
+
+                $query = $query->where('products.price','>=',$start_price);
+                $query = $query->where('products.price','<=',$end_price);
 
             }
 
