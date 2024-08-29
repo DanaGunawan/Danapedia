@@ -40,6 +40,16 @@ class products extends Model
             if (!empty($subCategoryId)) {
                 $query->where('products.sub_category_id', $subCategoryId);
             }
+            else{
+                if (!empty(Request::get('old_category_id'))) {
+                 $query =   $query->where('products.category_id', '=' ,Request::get('old_category_id'));
+                }
+            
+                if (!empty(Request::get('old_sub_category_id'))) {
+                    $query = $query->where('products.sub_category_id','=', Request::get('old_sub_category_id'));
+                }
+
+            }
         
             if(!empty(Request::get('ajax_sub_category_id'))){
                 $ajax_sub_category_id = rtrim(Request::get("ajax_sub_category_id"), ',');
@@ -61,7 +71,6 @@ class products extends Model
             if(!empty(Request::get('ajax_start_price') && Request::get('ajax_end_price'))){
                 $start_price = str_replace('Rp','',Request::get('ajax_start_price'));
                 $end_price = str_replace('Rp','',Request::get('ajax_end_price'));
-
                 $query = $query->where('products.price','>=',$start_price);
                 $query = $query->where('products.price','<=',$end_price);
 

@@ -87,12 +87,15 @@
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" class="filterForm" id="FilterForm">
                         @csrf
+                        <input type="hidden" name="old_category_id" value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
+                        <input type="hidden" name="old_sub_category_id" value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
+                        
                         <input type="hidden" name="ajax_sub_category_id" id="get_sub_category_id">
                         <input type="hidden" name="ajax_brand_id" id="get_brand_id">
                         <input type="hidden" name="ajax_color_id" id="get_color_id">
                         <input type="hidden" name="ajax_sort_id" id="get_sort_by_id">
-                        <input type="text" name="ajax_start_price" id="ajax_start_price">
-                        <input type="text" name="ajax_end_price" id="ajax_end_price">
+                        <input type="hidden" name="ajax_start_price" id="ajax_start_price">
+                        <input type="hidden" name="ajax_end_price" id="ajax_end_price">
                     </form>
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
@@ -279,8 +282,6 @@
 
     })
 
-
-
     $('.ChangeCategory').change(function () {
         let ids = '';
         $('.ChangeCategory').each(function () {
@@ -298,8 +299,7 @@
         $('.ChangeBrands').each(function () {
             if (this.checked) {
                 let id = $(this).val();
-                ids += id + ',';
-               
+                ids += id + ',';         
             }
         })
         $('#get_brand_id').val(ids);
@@ -332,8 +332,12 @@
         FilterForm();
     });
 
+    let xhr;
     function FilterForm(){
-        $.ajax({
+        if(xhr && xhr.readyState != 4){
+            xhr.abort();
+        }
+        xhr = $.ajax({
             type: "POST",
             data: $('#FilterForm').serialize(),
             url : "{{ url('ProductFilteringAjax') }}",
@@ -343,10 +347,11 @@
             },
             error: function (data){
                 console.log("Error" + data);
-            }
-            
+            }       
         });
     }
+
+   let i = 0;
 
       if ( typeof noUiSlider === 'object' ) {
 		var priceSlider  = document.getElementById('price-slider');
@@ -374,7 +379,12 @@
 			$('#filter-price-range').text(values.join(' - '));
             $('#ajax_start_price').val(startValue);
             $('#ajax_end_price').val(endValue);
-            FilterForm();
+            if(i==0 || i==1){
+                i++;
+            }
+            else{
+                FilterForm();
+            }
 		});
 	}
 
