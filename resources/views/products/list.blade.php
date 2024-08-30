@@ -76,6 +76,9 @@
                     <div id="getProductAjax">
                     @include('products._list')
                     </div>
+                    <div style="text-align:center;">
+                        <a href="javascript:;" class="btn btn-primary">Load More</a>
+                    </div>
                     
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
@@ -87,8 +90,8 @@
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" class="filterForm" id="FilterForm">
                         @csrf
-                        <input type="hidden" name="old_category_id" value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
-                        <input type="hidden" name="old_sub_category_id" value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
+                        <input type="hidden" name="old_sub_category_id" value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
+                        <input type="hidden" name="old_category_id" value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
                         
                         <input type="hidden" name="ajax_sub_category_id" id="get_sub_category_id">
                         <input type="hidden" name="ajax_brand_id" id="get_brand_id">

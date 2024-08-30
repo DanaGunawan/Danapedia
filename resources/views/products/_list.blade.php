@@ -65,5 +65,6 @@
                             @endforeach
 
 
-                        </div><!-- End .row -->
-                    </div><!-- End .products -->
+                        </div>
+                    </div>
+

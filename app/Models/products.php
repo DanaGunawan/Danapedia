@@ -40,21 +40,22 @@ class products extends Model
             if (!empty($subCategoryId)) {
                 $query->where('products.sub_category_id', $subCategoryId);
             }
-            else{
-                if (!empty(Request::get('old_category_id'))) {
-                 $query =   $query->where('products.category_id', '=' ,Request::get('old_category_id'));
-                }
-            
-                if (!empty(Request::get('old_sub_category_id'))) {
-                    $query = $query->where('products.sub_category_id','=', Request::get('old_sub_category_id'));
-                }
-
-            }
+          
         
             if(!empty(Request::get('ajax_sub_category_id'))){
                 $ajax_sub_category_id = rtrim(Request::get("ajax_sub_category_id"), ',');
                 $ajax_sub_category_id_array = explode(',', $ajax_sub_category_id);
                 $query = $query->whereIn('products.sub_category_id', $ajax_sub_category_id_array);
+            }
+
+            else{
+                if (!empty(Request::get('old_sub_category_id'))) {
+                    $query = $query->where('products.sub_category_id','=', Request::get('old_sub_category_id'));
+                }
+                if (!empty(Request::get('old_category_id'))) {
+                 $query =   $query->where('products.category_id', '=',Request::get('old_category_id'));
+                }   
+
             }
 
             if(!empty(Request::get('ajax_color_id'))){
@@ -80,7 +81,7 @@ class products extends Model
             ->where('products.status', 'Active')
             ->orderBy('products.id', 'desc')
             ->groupBy('products.id')
-            ->paginate(16)
+            ->paginate(1)
             ->withQueryString();
         }
 

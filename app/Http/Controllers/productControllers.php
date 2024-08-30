@@ -26,7 +26,9 @@ class productControllers extends Controller
             $data['meta_title'] = $getSubCategory->meta_title;
             $data['meta_description'] = $getSubCategory->meta_description;
             $data['meta_keywords'] = $getSubCategory->meta_keywords;
+            
             $data['product_data'] = Products::getProductsFront($getCategory->id,$getSubCategory->id);
+
             $data['sub_category_filter'] =  subCategory::getSubCategoryconnect($getCategory->id);
             
             return view('products.list',$data);
@@ -40,7 +42,20 @@ class productControllers extends Controller
             $data['getBrands'] = $getBrands;
             $data['meta_description'] = $getCategory->meta_description;
             $data['meta_keywords'] = $getCategory->meta_keywords;
-            $data['product_data'] = Products::getProductsFront($getCategory->id);
+
+            $getProducts = Products::getProductsFront($getCategory->id);
+
+            $page = 0;
+         
+            if(!empty($getProducts->nextPageUrl())){
+                $parse_url = parse_url($getProducts->nextPageUrl());
+                if(!empty($parse_url['query'])){
+                    parse_str($parse_url['query'], $page_array);
+                    $page = !empty($page_array['page']) ? $page_array['page'] : '';
+                }
+            }
+
+            $data['product_data'] = $getProducts;     
             $data['sub_category_filter'] =  subCategory::getSubCategoryconnect($getCategory->id);
             return view('products.list',$data);
 
