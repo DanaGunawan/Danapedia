@@ -27,8 +27,19 @@ class productControllers extends Controller
             $data['meta_description'] = $getSubCategory->meta_description;
             $data['meta_keywords'] = $getSubCategory->meta_keywords;
             
-            $data['product_data'] = Products::getProductsFront($getCategory->id,$getSubCategory->id);
+            $getProducts = Products::getProductsFront($getCategory->id);
 
+            $page = 0;
+         
+            if(!empty($getProducts->nextPageUrl())){
+                $parse_url = parse_url($getProducts->nextPageUrl());
+                if(!empty($parse_url['query'])){
+                    parse_str($parse_url['query'], $page_array);
+                    $page = !empty($page_array['page']) ? $page_array['page'] : '';
+                }
+            }
+            $data['page'] = $page;
+            $data['product_data'] = $getProducts; 
             $data['sub_category_filter'] =  subCategory::getSubCategoryconnect($getCategory->id);
             
             return view('products.list',$data);
@@ -54,6 +65,7 @@ class productControllers extends Controller
                     $page = !empty($page_array['page']) ? $page_array['page'] : '';
                 }
             }
+            $data['page'] = $page;
 
             $data['product_data'] = $getProducts;     
             $data['sub_category_filter'] =  subCategory::getSubCategoryconnect($getCategory->id);
@@ -66,11 +78,24 @@ class productControllers extends Controller
     }
 
     public function ProductFilteringAjax(Request $request){
-        $getproduct = Products::getProductsFront();
-        return response()->json([
-            'status' => true,
-            'success' => view('products._list',["product_data" => $getproduct])->render(),
+        $getProducts = Products::getProductsFront();
 
+        $page = 0;
+     
+        if(!empty($getProducts->nextPageUrl())){
+            $parse_url = parse_url($getProducts->nextPageUrl());
+            if(!empty($parse_url['query'])){
+                parse_str($parse_url['query'], $page_array);
+                $page = !empty($page_array['page']) ? $page_array['page'] : '';
+            }
+        }
+        $data['page'] = $page;
+        $data['product_data'] = $getProducts;            
+
+         return response()->json([
+            'status' => true,
+            'page' => $page,
+            'success' => view('products._list',["product_data" => $getProducts])->render(),
         ],200);
     }
 }

@@ -52,7 +52,10 @@
                     <div class="toolbox">
                         <div class="toolbox-left">
                             <div class="toolbox-info">
-                                Showing <span>9 of 56</span> Products
+                            <div class="toolbox-info">
+                             Showing <span id="current-count">{{ $product_data->count() }}</span> of {{ $product_data->total() }} Products
+                            </div>
+
                             </div><!-- End .toolbox-info -->
                         </div><!-- End .toolbox-left -->
 
@@ -74,25 +77,26 @@
                     </div><!-- End .toolbox -->
 
                     <div id="getProductAjax">
-                    @include('products._list')
+                        @include('products._list')
                     </div>
                     <div style="text-align:center;">
-                        <a href="javascript:;" class="btn btn-primary">Load More</a>
+                        <a href="javascript:;"  @if(empty($page)) style="display:none;"@endif  data-page="{{ $page }}" class="btn btn-primary LoadMore">Load More</a>
                     </div>
-                    
-                    <nav aria-label="Page navigation">
+                     <!-- <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             {!! $product_data->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
 
                         </ul>
-                    </nav>
+                        </nav> -->
                 </div><!-- End .col-lg-9 -->
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" class="filterForm" id="FilterForm">
                         @csrf
-                        <input type="hidden" name="old_sub_category_id" value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
-                        <input type="hidden" name="old_category_id" value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
-                        
+                        <input type="hidden" name="old_sub_category_id"
+                            value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
+                        <input type="hidden" name="old_category_id"
+                            value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
+
                         <input type="hidden" name="ajax_sub_category_id" id="get_sub_category_id">
                         <input type="hidden" name="ajax_brand_id" id="get_brand_id">
                         <input type="hidden" name="ajax_color_id" id="get_color_id">
@@ -302,7 +306,7 @@
         $('.ChangeBrands').each(function () {
             if (this.checked) {
                 let id = $(this).val();
-                ids += id + ',';         
+                ids += id + ',';
             }
         })
         $('#get_brand_id').val(ids);
@@ -336,60 +340,103 @@
     });
 
     let xhr;
-    function FilterForm(){
-        if(xhr && xhr.readyState != 4){
+    function FilterForm() {
+        if (xhr && xhr.readyState != 4) {
             xhr.abort();
         }
         xhr = $.ajax({
             type: "POST",
             data: $('#FilterForm').serialize(),
-            url : "{{ url('ProductFilteringAjax') }}",
+            url: "{{ url('ProductFilteringAjax') }}",
             dataType: "json",
             success: function (data) {
                 $('#getProductAjax').html(data.success);
+                $('.LoadMore').attr('data-page', data.page);
+
+            if(data.page == 0){
+            $('.LoadMore').hide();
+            }
+            else{
+           $('LoadMore').show();
+            }
             },
-            error: function (data){
+            error: function (data) {
                 console.log("Error" + data);
-            }       
+            }
         });
     }
 
-   let i = 0;
+    $('body').delegate('.LoadMore', 'click', function() {
+    let page = $(this).attr('data-page');
+    $('.LoadMore').html('Loading...');
 
-      if ( typeof noUiSlider === 'object' ) {
-		var priceSlider  = document.getElementById('price-slider');
+    if (xhr && xhr.readyState != 4) {
+        xhr.abort();
+    }
+
+    xhr = $.ajax({
+        type: "POST",
+        data: $('#FilterForm').serialize(),
+        url: "{{ url('ProductFilteringAjax') }}?page=" + page,
+        dataType: "json",
+        success: function (data) {
+            $('#getProductAjax').append(data.success);
+            $('.LoadMore').html('Load More');
+            $('.LoadMore').attr('data-page', data.page);
+
+            let currentCount = parseInt($('#current-count').text());
+            let newProductsCount = $(data.success).find('.product-item').length;
+            let newCount = currentCount + newProductsCount;
+            $('#current-count').text(newCount);
+
+            if (data.page == 0) {
+                $('.LoadMore').hide();
+            } else {
+                $('.LoadMore').show();
+            }
+        },
+        error: function (data) {
+            console.log("Error: " + data);
+        }
+    });
+});
 
 
-		noUiSlider.create(priceSlider, {
-			start: [ 0, 75000 ],
-			connect: true,
-			step: 1000,
-			margin: 0,
-			range: {
-				'min': 0,
-				'max': 300000
-			},
-			tooltips: true,
-			format: wNumb({
-		        decimals: 0,
-		        prefix: 'Rp'
-		    })
-		});
+    let i = 0;
+    if (typeof noUiSlider === 'object') {
+        var priceSlider = document.getElementById('price-slider');
 
-		priceSlider.noUiSlider.on('update', function( values, handle ){
+
+        noUiSlider.create(priceSlider, {
+            start: [0, 275000],
+            connect: true,
+            step: 1000,
+            margin: 0,
+            range: {
+                'min': 0,
+                'max': 300000
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0,
+                prefix: 'Rp'
+            })
+        });
+
+        priceSlider.noUiSlider.on('update', function (values, handle) {
             let startValue = values[0];
             let endValue = values[1];
-			$('#filter-price-range').text(values.join(' - '));
+            $('#filter-price-range').text(values.join(' - '));
             $('#ajax_start_price').val(startValue);
             $('#ajax_end_price').val(endValue);
-            if(i==0 || i==1){
+            if (i == 0 || i == 1) {
                 i++;
             }
-            else{
+            else {
                 FilterForm();
             }
-		});
-	}
+        });
+    }
 
 </script>
 
